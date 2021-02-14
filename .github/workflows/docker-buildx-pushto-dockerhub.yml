@@ -47,6 +47,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: scyto/zwavejs2mqtt:master #set to the dockerhub repo this will be pushed to
+          cache-from: type=local,mode=max,src=/tmp/.buildx-cache
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
           build-args: |
              SRC=git-clone-src
              Z2M_BRANCH=master
