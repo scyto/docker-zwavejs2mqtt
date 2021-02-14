@@ -11,9 +11,8 @@ on:
 #    # * is a special character in YAML so you have to quote this string
 #    - cron:  '0 18 * * *'
 
-
 jobs:
-  path-context:
+  zwavejs2mqqt-master:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
