@@ -12,7 +12,7 @@ on:
 #    - cron:  '0 18 * * *'
 
 jobs:
-  zwavejs2mqqt-master:
+  path-context:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
@@ -50,8 +50,7 @@ jobs:
              SRC=git-clone-src
              Z2M_BRANCH=master
              ZWJ_BRANCH=master
-             YARN_NETWORK_TIMEOUT=30000
-
+             
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }} #this is for logging.
         
