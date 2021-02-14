@@ -1,13 +1,18 @@
 name: Multi-architecture Build Status
 
 on:
-  push:
-    branches: 
-    - master
-    paths-ignore: #this ensures auto rebuilds don't occure when README.md is updated or the seperate workflow for updating descriptions and readme is modifies
-        - 'README.md'
-        - '.github/workflows/update-dockerhub-description-readme.yml'
-  
+#  push:
+#    branches: 
+#    - master
+#    paths-ignore: #this ensures auto rebuilds don't occure when README.md is updated or the seperate workflow for updating descriptions and readme is modifies
+#        - 'README.md'
+#        - '.github/workflows/update-dockerhub-description-readme.yml'
+   on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 10 * * *'
+
+
 jobs:
   path-context:
     runs-on: ubuntu-latest
