@@ -45,12 +45,13 @@ jobs:
           context: https://github.com/zwave-js/zwavejs2mqtt.git
           file: ./docker/Dockerfile.contrib
           push: true
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm/v6
           tags: scyto/zwavejs2mqtt:master #set to the dockerhub repo this will be pushed to
           build-args: |
              SRC=git-clone-src
              Z2M_BRANCH=master
              ZWJ_BRANCH=master
+             YARN_NETWORK_TIMEOUT=30000
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }} #this is for logging.
