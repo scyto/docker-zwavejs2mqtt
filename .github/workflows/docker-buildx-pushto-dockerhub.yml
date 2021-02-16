@@ -9,8 +9,8 @@ on:
 #        - '.github/workflows/update-dockerhub-description-readme.yml'
   schedule:
     # * is a special character in YAML so you have to quote this string
-    # - cron:  '0 18 * * *'
-    - cron:  '0 */1 * * *'  
+     - cron:  '0 22 * * *'
+    # - cron:  '0 */1 * * *'  
 
 
 jobs:
