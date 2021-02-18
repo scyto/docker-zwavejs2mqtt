@@ -48,7 +48,7 @@ jobs:
           file: ./docker/Dockerfile.contrib
           push: true
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          tags: scyto/zwavejs2mqtt:newui #set to the dockerhub repo this will be pushed to
+          tags: scyto/zwavejs2mqtt:feat-compact-cp-menu #set to the dockerhub repo this will be pushed to
           cache-from: type=local,mode=max,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
           build-args: |
