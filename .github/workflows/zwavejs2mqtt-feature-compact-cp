@@ -1,4 +1,4 @@
-name: zwavejs2mqtt nightly build
+name: zwavejs2mqtt-feature-compact-cp nightly build
  
 on:
 #  push:
