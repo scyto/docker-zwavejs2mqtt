@@ -12,7 +12,7 @@ RUN apk update \
 RUN  npm install --g lerna \
   && yarn \
   && yarn run build \
-  && lerna exec -- yarn link \ 
+  && lerna exec -- yarn link  
  # && cd ..
 
 # build zwavejs2mqtt
