@@ -8,12 +8,13 @@ RUN apk update \
   && git clone --depth 1 --branch master https://github.com/zwave-js/node-zwave-js.git \
   && git clone --depth 1 --branch master https://github.com/zwave-js/zwavejs2mqtt.git
 
-WORKDIR /node-zwave-js
 
-RUN npm install --g lerna \
+RUN cd node-zwave-js \
+  && npm install --g lerna \
   && yarn \
   && yarn run build \
-  && lerna exec -- yarn link
+  && lerna exec -- yarn link \
+  && cd ..
 
 # RUN for i in config core serial shared; do \
 #    cd packages/$i && \
@@ -28,8 +29,9 @@ RUN npm install --g lerna \
 #    yarn link
 
 # build zwavejs2mqtt
-WORKDIR /zwavejs2mqtt 
-RUN npm install \
+
+RUN cd zwavejs2mqtt \
+  && npm install \
   && npm run build \
   && yarn link zwave-js @zwave-js/core @zwave-js/config @zwave-js/serial @zwave-js/shared
 
@@ -56,4 +58,4 @@ ENV TZ America/Los_Angeles
 WORKDIR /usr/src/app/zwavejs2mqtt
 
 # Run  when the container launches
-CMD ["node", "bin/www"]
+CMD ["npm", "start"]
