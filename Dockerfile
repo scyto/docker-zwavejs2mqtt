@@ -1,0 +1,59 @@
+# Use alpine base image
+FROM node:15.9.0-alpine AS builder
+# ARG YARN_NETWORK_TIMEOUT=300000
+
+# build zwavejs
+RUN apk update \
+  && apk add --no-cache git python3  linux-headers yarn coreutils jq alpine-sdk \
+  && git clone --depth 1 --branch master https://github.com/zwave-js/node-zwave-js.git \
+  && git clone --depth 1 --branch master https://github.com/zwave-js/zwavejs2mqtt.git
+
+WORKDIR /node-zwave-js
+
+RUN npm install --g lerna \
+  && yarn \
+  && yarn run build \
+  && lerna exec -- yarn link
+
+# RUN for i in config core serial shared; do \
+#    cd packages/$i && \
+#    yarn version --no-git-tag-version --new-version $(yarn versions --json| \
+#        jq -r '[.data."@zwave-js/'${i}'"]'[0])-$(git rev-parse --short HEAD) && \
+#    yarn link && \
+#    cd ../..; \
+#    done
+#RUN cd packages/zwave-js && \
+#    yarn version --no-git-tag-version --new-version $(yarn versions --json| \
+#        jq -r '[.data."zwave-js"]'[0])-$(git rev-parse --short HEAD) && \
+#    yarn link
+
+# build zwavejs2mqtt
+WORKDIR /zwavejs2mqtt 
+RUN npm install \
+  && npm run build \
+  && yarn link zwave-js @zwave-js/core @zwave-js/config @zwave-js/serial @zwave-js/shared
+
+FROM node:15.9.0-alpine
+
+RUN apk add --no-cache \	
+    libstdc++  \
+    openssl \
+    libgcc \	
+    libusb \	
+    tzdata \	
+    eudev	
+
+# Copy files from previous build stage	
+COPY --from=builder /zwavejs2mqtt /usr/src/app/zwavejs2mqtt
+COPY --from=builder /node-zwave-js /usr/src/app/node-zwave-js		
+
+WORKDIR /usr/src/app
+
+# Define environment variable
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV LANG C.UTF-8
+ENV TZ America/Los_Angeles
+WORKDIR /usr/src/app/zwavejs2mqtt
+
+# Run  when the container launches
+CMD ["node", "bin/www"]
