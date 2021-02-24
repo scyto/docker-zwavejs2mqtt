@@ -1,4 +1,4 @@
-name: zwavejs2mqtt nightly build
+name: zwavejs2mqtt nightly build v2
  
 on:
 #  push:
